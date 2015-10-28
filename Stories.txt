@@ -1,0 +1,57 @@
+Stories: 
+
+As a user
+    I want to look up classes by CRN
+    So I can see the students who have not met the prereqs for a specific class.
+
+As a user
+    I want the ability to check a certain combination of days and time for a class (in military time)
+    So that I can see if it is a good option to move the class to this combination
+
+As a user
+    I want the abilty to search by class number
+    So I have don't have to look up the CRN.
+
+As a developer
+    I want to notify the user when there is more than one section of the class number they enter
+    So the return is for the correct class only.
+
+As a developer
+    I want to return the correct class title, course number and section for a given CRN
+    So the user can see whether they chose the class they were intending.
+
+As a user
+    I want the ability to search by major code
+    So that I don't have to look up the CRN or class number.
+
+As a user
+    I want the ability to search by class title
+    So that I don't have to look up the CRN or class number.
+
+As an advisor
+    I want to see a list of all the students in a class that have conflicts
+    So I can take the appropriate actions.
+
+As an advisor
+    I want to see a count of all the students in the class that don't have conflicts with the time change
+    So I can make the appropriate judgments.
+
+As an advisor
+    I want to see which conflicts students have with the combination of days and time
+    So I can take the appropriate actions.
+
+As a developer
+    I want to have a database
+    So I can query the database rather than the large CSV multiple times
+
+As a developer
+    I want to install all required modules on the host computer
+    So I can be sure the user has no issues running the program
+
+As an advisor
+    I want to see the students ranked by classification
+    So I can see how important each conflict within a class is.
+
+As an advisor  
+    I want to see student info (banner number, name, email, department) for each student
+    So I can take the appropriate actions when finding conflicts.
