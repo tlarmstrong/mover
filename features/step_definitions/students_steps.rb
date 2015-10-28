@@ -3,11 +3,6 @@ Given(/^a "([^"]*)"\.$/) do |arg1|
   #puts @input
 end
 
-When(/^the finder is run\.$/) do
-  @output = `python mockStudentList.py #{@input}`
-  raise('Command Failed!') unless $?.success?
-end
-
 When(/^the converter is run\.$/) do
   @output = `python mockStudentList.py #{@input}`
   raise('Command Failed!') unless $?.success?
