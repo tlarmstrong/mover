@@ -6,7 +6,7 @@ Scenario Outline: User enters a Class Number into the program.
 	Then the output should be "<Prof Name>".
 
 	Examples:
-		| Class Number			| Prof Name	   |
+		| Class Number				| Prof Name	   |
 		| CS374,201610 		        | Reeves, Brent    |
 		| 11081,201610	    		| Reeves, Brent    |
 		| PSYC120,201610	    	| Beck, Richard    |
@@ -16,12 +16,12 @@ Scenario Outline: User enters a Class Number into the program.
 		| ITC460,201610	    		| Byrd, Robert     |
 		| 11092,201610	    		| Byrd, Robert     |
 		| MATH377,201610	    	| Riggs, Mark      |
-		| 11077,201610	    		| Riggs, Mark      |
+		| 10170,201610	    		| Riggs, Mark      |
 		| CS332,201610	    		| Homer, John      |
 		| 11079,201610	    		| Homer, John      |
 		| MATH227,201610	    	| Hendricks, Thomas|
-		| 11077,201610	    		| Hendricks, Thomas|
+		| 10164,201610	    		| Hendricks, Thomas|
 		| BIBL211,201610    		| Willis, John     |
 		| 10059,201610	    		| Willis, John     |
 		| MATH186,201610    		| Karabegov, Alexander     |
-		| 10181,201610	    		| Karabegov, Alexander     |
+		| 10161,201610	    		| Karabegov, Alexander     |

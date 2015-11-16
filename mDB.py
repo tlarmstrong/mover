@@ -25,7 +25,7 @@ def setupDB():
 
     if (count == 0):
         c.execute("DROP TABLE IF EXISTS `student`")
-        c.execute("CREATE TABLE `student` (id varchar(10) NOT NULL, firstName varchar(20) NOT NULL, lastName varchar(20) NOT NULL, classification varchar(10), email varchar(100), dept varchar(50), hours int(10), grade varchar(2), PRIMARY KEY(id))") 
+        c.execute("CREATE TABLE `student` (id varchar(10) NOT NULL, firstName varchar(20) NOT NULL, lastName varchar(20) NOT NULL, classification varchar(10), email varchar(100), dept varchar(50), hours int(10), grade varchar(2), major varchar(50), PRIMARY KEY(id))") 
 
         c.execute("DROP TABLE IF EXISTS `enrollment`")
         c.execute("CREATE TABLE `enrollment` (id varchar(10) NOT NULL, crn varchar(10), termCode varchar(10), hours int(3), PRIMARY KEY(id, crn, termCode))")
@@ -34,7 +34,7 @@ def setupDB():
         c.execute("CREATE TABLE `section` (crn varchar(10), termCode varchar(10) NOT NULL, profID varchar(5), d1 varchar(3), d2 varchar(3), d3 varchar(3), d4 varchar(3), d5 varchar(3), beginTime varchar(5), endTime varchar(5), building varchar(6), room varchar(5), capacity varchar(3), enrolled varchar(3), PRIMARY KEY(crn, termCode))")
 
         c.execute("DROP TABLE IF EXISTS `class`")
-        c.execute("CREATE TABLE `class` (crn varchar(10), termCode varchar(10) NOT NULL, subjectCode varchar(5), courseNum varchar(5), section varchar(5), title varchar(70), PRIMARY KEY(crn, termCode, subjectCode, courseNum))")
+        c.execute("CREATE TABLE `class` (crn varchar(10), termCode varchar(10) NOT NULL, subjectCode varchar(5), courseNum varchar(5), section varchar(5), title varchar(80), credits int(5), PRIMARY KEY(crn, termCode, subjectCode, courseNum))")
 
         c.execute("DROP TABLE IF EXISTS `instructor`")
         c.execute("CREATE TABLE `instructor` (id varchar(10), name varchar(30), PRIMARY KEY(id))")
@@ -53,6 +53,9 @@ def setupDB():
             term = t['Term Code']
     print('Term: '+term)
     f.close()
+
+    n = 6
+    x = 0
         
     f = open('info/cs374_anon.csv')
     reader = csv.DictReader(f)
@@ -81,7 +84,8 @@ def setupDB():
                                          str(row['Section Enrollment'])
                                         )
                                     )
-    print('section added')
+    x += 1
+    print('section added...\t('+str(x)+' / '+str(n)+' complete)')
     conn.commit()
     f.close()
 
@@ -92,22 +96,88 @@ def setupDB():
     f = open('info/cs374_anon.csv')
     reader = csv.DictReader(f)
     for row in reader:
-        # student: id, firstName, lastName, classification, email, dept, hours, grade
-        c.execute("""INSERT IGNORE INTO `student` 
-                                (`id`, `firstName`, `lastName`, `classification`, `email`, `dept`, `hours`, `grade`) 
-                                VALUES (%s, %s, %s, %s, %s, %s, 0, %s)""", 
+        if(row['Term Code'] == term):
+            # student: id, firstName, lastName, classification, email, dept, hours, grade
+            c.execute("""INSERT IGNORE INTO `student` 
+                                    (`id`, `firstName`, `lastName`, `classification`, `email`, `dept`, `hours`, `grade`, `major`) 
+                                    VALUES (%s, %s, %s, %s, %s, %s, 0, %s, %s)""", 
 
-                                (str(row['Banner ID']),
-                                 str(row['First Name']),
-                                 str(row['Last Name']),
-                                 str(row['Class Code']),
-                                 str(row['ACU Email Address']),
-                                 str(row['Department Code']),
-                                 str(row['Grade Code'])
-                                 )
-                            )
+                                    (str(row['Banner ID']),
+                                     str(row['First Name']),
+                                     str(row['Last Name']),
+                                     str(row['Class Code']),
+                                     str(row['ACU Email Address']),
+                                     str(row['Department Code']),
+                                     str(row['Grade Code']),
+                                     str(row['Major Desc1'])
+                                     )
+                                )
 
-    print('student added')
+    x += 1
+    print('student added...\t('+str(x)+' / '+str(n)+' complete)')
+    conn.commit()
+    f.close()
+
+    f = open('info/cs374_anon.csv')
+    reader = csv.DictReader(f)
+    for row in reader:
+        if(row['Term Code'] == term):
+            # class: crn, termCode, subjectCode, courseNum, section, title
+            c.execute("""INSERT IGNORE INTO `class` 
+                                        (`crn`, `termCode`, `subjectCode`, `courseNum`, `section`, `title`, `credits`) 
+                                        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+
+                                        (str(row['CRN']),
+                                         str(row['Term Code']),
+                                         str(row['Subject Code']),
+                                         str(row['Course Number']),
+                                         str(row['Section Number']),
+                                         str(row['Course Title']),
+                                         str(row['Credit Hours'])
+                                         )
+                                    )
+
+    x += 1
+    print('class added...\t\t('+str(x)+' / '+str(n)+' complete)')
+    conn.commit()
+    f.close()
+
+    f = open('info/cs374_anon.csv')
+    reader = csv.DictReader(f)
+    for row in reader:
+        if(row['Term Code'] == term):
+            # instructor: id, prof
+            c.execute("""INSERT IGNORE INTO `instructor` 
+                                    (`id`, `name`) 
+                                    VALUES (%s, %s)""", 
+
+                                    (str(row['Instructor ID']),
+                                     str(row['Instructor Name'])
+                                     )
+                                )
+
+    x += 1
+    print('instructor added...\t('+str(x)+' / '+str(n)+' complete)')
+    conn.commit()
+    f.close()
+
+    f = open('info/cs374_anon.csv')
+    reader = csv.DictReader(f)
+    for row in reader:
+        if(row['Term Code'] == term):
+            # instSection: id, crn, termCode, eval
+            c.execute("""INSERT IGNORE INTO `instSection` 
+                                    (`id`, `crn`, `termCode`, `eval`) 
+                                    VALUES (%s, %s, %s, '')""", 
+
+                                    (str(row['Banner ID']),
+                                     str(row['CRN']),
+                                     str(row['Term Code'])
+                                     )
+                                )
+
+    x += 1
+    print('teaches added...\t('+str(x)+' / '+str(n)+' complete)')
     conn.commit()
     f.close()
 
@@ -126,77 +196,10 @@ def setupDB():
                                  )
                             )
 
-    print('enrollment added')
+    x += 1
+    print('enrollment added...\t('+str(x)+' / '+str(n)+' complete)\n')
     conn.commit()
     f.close()
-
-    f = open('info/cs374_anon.csv')
-    reader = csv.DictReader(f)
-    for row in reader:
-        # class: crn, termCode, subjectCode, courseNum, section, title
-        c.execute("""INSERT IGNORE INTO `class` 
-                                    (`crn`, `termCode`, `subjectCode`, `courseNum`, `section`, `title`) 
-                                    VALUES (%s, %s, %s, %s, %s, %s)""",
-
-                                    (str(row['CRN']),
-                                     str(row['Term Code']),
-                                     str(row['Subject Code']),
-                                     str(row['Course Number']),
-                                     str(row['Section Number']),
-                                     str(row['Course Title'])
-                                     )
-                                )
-
-    print('class added')
-    conn.commit()
-    f.close()
-
-    f = open('info/cs374_anon.csv')
-    reader = csv.DictReader(f)
-    for row in reader:
-        # instructor: id, prof
-        c.execute("""INSERT IGNORE INTO `instructor` 
-                                (`id`, `name`) 
-                                VALUES (%s, %s)""", 
-
-                                (str(row['Instructor ID']),
-                                 str(row['Instructor Name'])
-                                 )
-                            )
-
-    print('instructor added')
-    conn.commit()
-    f.close()
-
-    f = open('info/cs374_anon.csv')
-    reader = csv.DictReader(f)
-    for row in reader:
-        # instSection: id, crn, termCode, eval
-        c.execute("""INSERT IGNORE INTO `instSection` 
-                                (`id`, `crn`, `termCode`, `eval`) 
-                                VALUES (%s, %s, %s, '')""", 
-
-                                (str(row['Banner ID']),
-                                 str(row['CRN']),
-                                 str(row['Term Code'])
-                                 )
-                            )
-
-    print('instSection added\n')
-    conn.commit()
-    f.close()
-
-    # c.execute("SELECT * FROM `student`")
-    # for test in c.fetchall():   
-    #     print(test)
-
-    # c.execute("SELECT * FROM `studentclass`")
-    # for test in c.fetchall():   
-    #     print(test)
-
-    # c.execute("SELECT * FROM `class`")
-    # for test in c.fetchall():   
-    #     print(test)
 
     c.close()
     conn.close()

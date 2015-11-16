@@ -23,8 +23,10 @@ for row in reader:
 			result.append( str(row['CRN'])+' '+str(row['Monday Ind1'])+str(row['Tuesday Ind1'])+str(row['Wednesday Ind1'])+str(row['Thursday Ind1'])+str(row['Friday Ind1'])+' '+str(row['Begin Time 1'])+' - '+str(row['End Time1']) )
 
 	elif ( pList[0] == str(row['Instructor ID']) and pList[1] == str(row['Term Code']) ):
+		s = ''
 		if ( row['Begin Time 1'] != '0' and row['End Time1'] != '1' ):
-			result.append( str(row['CRN'])+' '+str(row['Monday Ind1'])+str(row['Tuesday Ind1'])+str(row['Wednesday Ind1'])+str(row['Thursday Ind1'])+str(row['Friday Ind1'])+' '+str(row['Begin Time 1'])+' - '+str(row['End Time1']) )
-
+			s = str(row['CRN'])+' '+str(row['Monday Ind1'])+str(row['Tuesday Ind1'])+str(row['Wednesday Ind1'])+str(row['Thursday Ind1'])+str(row['Friday Ind1'])+' '+str(row['Begin Time 1'])+' - '+str(row['End Time1'])
+			if s not in result:
+				result.append(s)
 f.close()
 sys.stdout.write(str(result))

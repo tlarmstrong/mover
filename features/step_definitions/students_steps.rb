@@ -28,6 +28,11 @@ When(/^we make it go\.$/) do
   raise('Command Failed!') unless $?.success?
 end
 
+When(/^we scream\.$/) do
+  @output = `python cucDuration.py #{@input}`
+  raise('Command Failed!') unless $?.success?
+end
+
 Then(/^the output should be "([^"]*)"\.$/) do |arg1|
   expect(arg1).to eq(@output)
 end
