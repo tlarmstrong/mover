@@ -1,6 +1,6 @@
 import csv
 import sys
-import mysql.connector
+import mConnect
 
 def convert(input):
 
@@ -10,11 +10,7 @@ def convert(input):
     findSection = set([])
 
     # Connect to the database.
-    conn = mysql.connector.connect(
-        db='mover',
-        user='root',
-        passwd='', 
-        host='localhost')
+    conn = mConnect.connection()
     c = conn.cursor()
     c.execute("START TRANSACTION")
 
