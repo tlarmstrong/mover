@@ -4,7 +4,7 @@
 import cgi
 import mMain
 
-print "Content-Type: text/html"
+print "Content-Type: text/plain;charset=utf-8"
 print
 print """
     <TITLE>CGI script ! Python</TITLE>
