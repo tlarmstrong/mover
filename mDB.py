@@ -3,7 +3,7 @@
 import csv
 import glob
 import os
-import mysql.connector
+import mConnect
 from collections import defaultdict
 
 # Turn on debug mode.
@@ -12,11 +12,7 @@ import cgitb
 def setupDB():
     cgitb.enable()
 
-    conn = mysql.connector.connect(
-        db='mover',
-        user='root',
-        passwd='', 
-        host='localhost')
+    conn = mConnect.connection()
     c = conn.cursor()
     c.execute("START TRANSACTION")
 

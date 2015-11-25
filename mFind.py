@@ -1,15 +1,10 @@
 from collections import defaultdict
-import mysql.connector    
+import mConnect    
 
 def getStudentInfo(course, term):
 
-    conn = mysql.connector.connect(
-        db='mover', 
-        user='root',
-        passwd='', 
-        host='localhost')
+    conn = mConnect.connection()
     c = conn.cursor()
-    #c.execute("START TRANSACTION")
 
     sList = []
 
