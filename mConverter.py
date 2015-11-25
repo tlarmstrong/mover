@@ -1,4 +1,3 @@
-# https://pymotw.com/2/csv/
 import csv
 import sys
 import mysql.connector
@@ -9,49 +8,41 @@ def convert(input):
 
     # using a set to find the sections (unique elements only)
     findSection = set([])
-    #f = open('info/CS374_2016_registrations.csv','rU')
-
-    # DictReader translates rows to dictionaries
-    # Keys for the dictionary are inferred from the first row in the input
-    #reader = csv.DictReader(f)
 
     # Connect to the database.
-    #import pymysql
-    #conn = pymysql.connect(
     conn = mysql.connector.connect(
-        db='example', #prereq
+        db='mover',
         user='root',
-        passwd='', #sett!ngupServerFrs0ftEngCl@s5
+        passwd='', 
         host='localhost')
     c = conn.cursor()
     c.execute("START TRANSACTION")
 
-    c.execute("SELECT * FROM `section` " )
+    c.execute("SELECT * FROM `class` " )
     for section in c.fetchall():
         if (input.find('.') != -1):
             input = input.replace(" ", "")
             input = input.replace(".0", ".")
-            #`id`, `subjCode`, `courseNum`, `section`, `title`, `termCode`
-            if (input.upper() == section[1]+section[2]+'.'+section[3]):
+            #section = '11081','201610','CS','374','1','Software Engineering',3)
+            if (input.upper() == section[2]+section[3]+'.'+section[4]):
                 result = section[0]
         # subject code + a course number
         elif (input[0].isalpha() and input[len(input)-1].isdigit()):
             input = input.replace(" ", "")
             input = input.upper()
-            if(input.upper() == section[1]+section[2]):
-                findSection.add(section[1]+section[2]+'.'+section[3])
+            if(input.upper() == section[2]+section[3]):
+                findSection.add(section[2]+section[3]+'.'+section[4])
                 result = section[0]
         # subject code only
         elif(input[0].isalpha() and len(input) < 5):
             input = input.upper()
             if (input == section[1]):
-                findSection.add(section[1]+section[2]+'.'+section[3])
+                findSection.add(section[2]+section[3]+'.'+section[4])
                 result = section[0]
         # course title
         else:
-            if (input.lower() == section[4].lower()):
-                findSection.add(section[1]+section[2]+'.'+section[3])
-                #result = row['Subject Code']+row['Course Number']+'.'+row['Section Number']
+            if (input.lower() == section[5].lower()):
+                findSection.add(section[2]+section[3]+'.'+section[4])
                 result = section[0]
 
     # if the course has at least 2 sections, ask the user to tell us which one he/she wants
