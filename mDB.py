@@ -16,7 +16,7 @@ def setupDB():
     c = conn.cursor()
     c.execute("START TRANSACTION")
 
-    
+    Term = 0
     count = 0
 
     if (count == 0):
@@ -27,7 +27,7 @@ def setupDB():
         c.execute("CREATE TABLE `enrollment` (id varchar(10) NOT NULL, crn varchar(10), termCode varchar(10), hours int(3), PRIMARY KEY(id, crn, termCode))")
 
         c.execute("DROP TABLE IF EXISTS `section`")
-        c.execute("CREATE TABLE `section` (crn varchar(10), termCode varchar(10) NOT NULL, profID varchar(5), d1 varchar(3), d2 varchar(3), d3 varchar(3), d4 varchar(3), d5 varchar(3), beginTime varchar(5), endTime varchar(5), building varchar(6), room varchar(5), capacity varchar(3), enrolled varchar(3), PRIMARY KEY(crn, termCode))")
+        c.execute("CREATE TABLE `section` (crn varchar(10), termCode varchar(10) NOT NULL, profID varchar(10), d1 varchar(3), d2 varchar(3), d3 varchar(3), d4 varchar(3), d5 varchar(3), beginTime varchar(5), endTime varchar(5), building varchar(6), room varchar(5), capacity varchar(3), enrolled varchar(3), PRIMARY KEY(crn, termCode))")
 
         c.execute("DROP TABLE IF EXISTS `class`")
         c.execute("CREATE TABLE `class` (crn varchar(10), termCode varchar(10) NOT NULL, subjectCode varchar(5), courseNum varchar(5), section varchar(5), title varchar(80), credits int(5), PRIMARY KEY(crn, termCode, subjectCode, courseNum))")
@@ -199,5 +199,5 @@ def setupDB():
 
     c.close()
     conn.close()
-    return term
+    return Term
 

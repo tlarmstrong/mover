@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Banner Class Mover</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <script type="text/javascript" src="static/js/jquery-2.1.4.min.js"></script>
+    <script>
+      $(function() {
+          $('#btnClass').click(function() {
+              $.ajax({
+                  url: '/classChooser',
+                  data: $('form').serialize(),
+                  type: 'POST',
+                  success: function(response) {
+                      console.log(response);
+                      $('.jumbotron').append(format(JSON.parse(response)));
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          });
+      }); 
+      function format(response)
+      {
+        var code = response.replace(/\r?\n/g, "<br/>"); //replace return carriage and newline characters
+        return code;
+      } 
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">Banner Class Mover</h3>
+      </div>
+      <div class="jumbotron">
+        <h2>Check a class for conflicts with a new date and/or time.</h2>
+        <h4>Please enter information within each field.</h4>
+        <form class="form-signin">
+        <label for="className" class="sr-only">Course Number/Class Name/CRN</label>
+        <input type="className" name="className" id="className" class="form-control" placeholder="Course Number / Class Name / CRN" required autofocus>
+        <label for="days" class="sr-only">Days</label>
+        <input type="days" name="days" id="days" class="form-control" placeholder="Class Days (ex. MWF)" required >
+        <label for="time" class="sr-only">Time</label>
+        <input type="time" name="time" id="time" class="form-control" placeholder="Class Start Time (ie. 1300)" required >
+        <button id="btnClass" class="btn btn-large btn-success btn-block" type="button">See my results!</button>
+      </form>
+      </div>
+      <a href = "/ShowChooseClass"><button id="btn" class="btn btn-large btn-primary" type="button">Clear</button><a>
+      <footer class="footer">
+      Team Blue: Tracey Armstrong, Jaymie Fuller, Kayla Holcomb
+      </footer>
+    </div>
+  </body>
+</html>

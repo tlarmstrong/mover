@@ -15,7 +15,7 @@ def main ():
     #print(not course.isdigit())
     # convert the input if user entered anything other than a CRN
     if(not course.isdigit()):
-    	course = mConverter.convert(course)
+        course = mConverter.convert(course)
 
     # use the CRN to setup the tables for student and prereq and find the students in that section
     if(course.isdigit()):
