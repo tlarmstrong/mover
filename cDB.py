@@ -22,7 +22,7 @@
 import csv
 import glob
 import os
-import mConnect
+import cConnect
 from collections import defaultdict
 
 # Turn on debug mode.
